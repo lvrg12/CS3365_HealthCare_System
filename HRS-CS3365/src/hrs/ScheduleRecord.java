@@ -1,5 +1,3 @@
-package hrs;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,7 +21,7 @@ public class ScheduleRecord //handler
 		tableName = "schedule_record_table_test";
 		try
 		{
-			connection = DriverManager.getConnection(DATABASE_URL, "root", "YES");
+			connection = DriverManager.getConnection(DATABASE_URL, "root", "Abiel.242.");
 			statement = connection.createStatement();
 			resultSet = null;
 		}

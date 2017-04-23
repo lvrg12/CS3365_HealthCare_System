@@ -1,11 +1,8 @@
-package hrs;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Random;
 
 public class PaymentRecord
 {
@@ -139,9 +136,5 @@ public class PaymentRecord
 		{
 			exception.printStackTrace();
 		}
-	}
-	public static int generateReferenceNum(){
-		int rand = (new Random()).nextInt(90000000) + 10000000;
-		return rand;
 	}
 }

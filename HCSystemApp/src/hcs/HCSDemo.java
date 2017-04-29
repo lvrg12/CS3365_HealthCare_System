@@ -2,7 +2,7 @@ package hcs;
 public class HCSDemo
 {
 	public static void main(String[] args)
-	{			
+	{	
 		//ScheduleHandler test
 		ScheduleHandler schedule = new ScheduleHandler();
 		System.out.println(schedule.appointmentExists("Gelfond", "12/23/2017", "4:30"));

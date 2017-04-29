@@ -16,7 +16,10 @@ public class ScheduleServlet extends HttpServlet
 		scheduleTable = new ScheduleHandler();
 		String selection = request.getParameter("action");
 		
+		
 		//response
+		//response.sendRedirect("html/HRS.html"); use to redirect to another file
+		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String title = "Schedule Responde";
@@ -119,5 +122,6 @@ public class ScheduleServlet extends HttpServlet
 		out.println("</body></html>");
 		out.close();
 		scheduleTable.close();
+		
 	}
 }

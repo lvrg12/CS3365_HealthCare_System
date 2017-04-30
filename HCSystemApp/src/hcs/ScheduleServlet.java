@@ -13,13 +13,21 @@ public class ScheduleServlet extends HttpServlet
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
+		String message = "Hello World";
+        request.setAttribute("message", message); // This will be available as ${message}
+        request.getRequestDispatcher("html/inputFile.html").forward(request, response);
+        
+		//response.sendRedirect("html/inputFile.html"); // use to redirect to another file
+		//request.getParameter("cell");
+		//request.setAttribute("value","new sentence");
+		//request.setAttribute("innerHTML", "new sentence");
+		//request.getRequestDispatcher("html/inputFile.html").forward(request, response);
+		
+		/*
 		scheduleTable = new ScheduleHandler();
 		String selection = request.getParameter("action");
 		
-		
 		//response
-		//response.sendRedirect("html/HRS.html"); use to redirect to another file
-		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String title = "Schedule Responde";
@@ -122,6 +130,6 @@ public class ScheduleServlet extends HttpServlet
 		out.println("</body></html>");
 		out.close();
 		scheduleTable.close();
-		
+		*/
 	}
 }

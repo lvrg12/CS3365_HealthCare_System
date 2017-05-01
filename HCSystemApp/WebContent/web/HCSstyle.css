@@ -1,0 +1,141 @@
+body {
+	font-family: "Lato", sans-serif;
+    margin: 10px
+}
+
+header {
+	display: block;
+    border: 1px solid #ccc;
+    padding: 0px 0px 0px 16px;
+    width: 100%;
+}
+
+input {
+	margin: 10px 10px 10px 0px;
+}
+
+table {
+    border-collapse: collapse;
+    overflow-y: auto;
+    margin: 10px 0px 0px 0px;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+td {
+	border: 1px solid #f1f1f1;
+}
+
+th {
+    background-color: #ddd;
+}
+
+tr:nth-child(even){
+	background-color: #f1f1f1;
+}
+
+tr:hover {
+	background-color: #ccc;
+    transition: 0.3s;
+}
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-top: none;
+    background-color: #f1f1f1;
+    width: 100%;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+    width: 16.666%;
+    height: 50px;
+    
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the buttons inside the tab */
+button {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+    height: 50px;
+    
+}
+
+/* Change background color of buttons on hover */
+button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+button.active {
+    background-color: #ccc;
+}
+
+input[type=submit] {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+    width: 20%;
+    height: 50px;
+}
+
+input[type=submit]:hover {
+	background-color: #ddd;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    width: 100%;
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+.inputcontent {
+	display: none;
+}
+
+@-webkit-keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}

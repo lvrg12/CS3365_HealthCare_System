@@ -87,15 +87,15 @@
   </div>
   
   <div id="SchedCreate" class="inputcontent">
-    <form>
+    <form action="http://localhost:8080/HCSystemApp/ScheduleServlet">
       Date:
-      <input type="date" required>
+      <input type="date" name="date" required>
       Time:
-      <input type="time" required>
+      <input type="time" name="time" required>
       Doctor:
-      <input type="text" placeholder="John Doe" required>
+      <input type="text" placeholder="John Doe" name="doctor" required>
       Patient Name:
-      <input type="text" placeholder="Jane Doe" required>
+      <input type="text" placeholder="Jane Doe" name="patient_name" required>
       <br><br>
       <input type="submit" value="Submit">
     </form>
@@ -331,7 +331,7 @@
 </center>
 </div>
 
-<script type="text/javascript" src="HCSscript.js"></script>
+<jsp:include page="HCSscript.jsp" />
      
 </body>
 </html>

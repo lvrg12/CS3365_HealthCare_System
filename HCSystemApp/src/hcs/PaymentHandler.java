@@ -48,9 +48,9 @@ public class PaymentHandler
 	//adds a new payment record with given values to database
 	//note: throws an error if given SSN and date already exist
 	public void addPaymentRecord(int SSN, String date, String paymentType, boolean isPaid, double amount,
-							int paymentRef)
+							int paymentRef, int card)
 	{
-		String values = "("+SSN+",'"+date+"','"+paymentType+"',"+isPaid+","+amount+","+paymentRef+")";
+		String values = "("+SSN+",'"+date+"','"+paymentType+"',"+isPaid+","+amount+","+paymentRef+",'"+card+"')";
 		try
 		{
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
@@ -102,6 +102,21 @@ public class PaymentHandler
 			sqlException.printStackTrace();
 		}
 	}
+	
+	//sets the card number of patient with the given SSN, date, paymentType
+	public void setCard(String card, int SSN, String date, String paymentType)
+	{
+		try
+		{
+			statement.execute("UPDATE "+tableName+" SET card = '"+card+"' WHERE SSN = "+SSN
+								+" AND date = '"+date+"' AND payment_type = '"+paymentType+"';");
+		}
+		catch(SQLException sqlException)
+		{
+			sqlException.printStackTrace();
+		}
+	}
+		
 	//prints table for testing purposes
 	public void printAll()
 	{
@@ -147,7 +162,8 @@ public class PaymentHandler
 	{
 		try
 		{
-			resultSet.close();
+			if(resultSet!=null)
+				resultSet.close();
 			statement.close();
 			connection.close();
 		}

@@ -45,18 +45,18 @@
   </div>
   
   <div id="PatientAccInput" class="inputcontent">
-    <form>
+    <form action="http://localhost:8080/HCSystemApp/PatientAccountServlet">
       SSN:
-      <input type="text" placeholder="### - ## - ####" required>
+      <input type="text" name="SSN" placeholder="### - ## - ####" required>
       Patient Name:
-      <input type="text" placeholder="John Doe" required>
+      <input type="text" name="patient_name" placeholder="John Doe" required>
       Address:
-      <input type="text" placeholder="123 Happy Ln" required>
+      <input type="text" name="address" placeholder="123 Happy Ln" required>
       <br>
       Phone Number:
-      <input type="tel" placeholder="(###)  ### - ####" required>
+      <input type="tel" name="phone_number" placeholder="(###)  ### - ####" required>
       Email:
-      <input type="email" placeholder="john.doe@hrsmail.com" required>
+      <input type="email" name="email" placeholder="john.doe@hrsmail.com" required>
       <br><br>
       <input type="submit" value="Submit">
     </form>
@@ -89,11 +89,11 @@
   <div id="SchedCreate" class="inputcontent">
     <form action="http://localhost:8080/HCSystemApp/ScheduleServlet">
       Date:
-      <input type="date" name="date" required>
+      <input type="date" name="create_date" required>
       Time:
-      <input type="time" name="time" required>
+      <input type="time" name="create_time" required>
       Doctor:
-      <input type="text" placeholder="John Doe" name="doctor" required>
+      <input type="text" placeholder="John Doe" name="create_doctor" required>
       Patient Name:
       <input type="text" placeholder="Jane Doe" name="patient_name" required>
       <br><br>
@@ -102,39 +102,39 @@
   </div>
   
   <div id="SchedChange" class="inputcontent">
-    <form>
+    <form action="http://localhost:8080/HCSystemApp/ScheduleServlet">
       Old Date:
-      <input type="date" required>
+      <input type="date" name="old_date" required>
       New Date:
-      <input type="date" required>
+      <input type="date" name="new_date"required>
       <br>
       Old Time:
-      <input type="time" required>
+      <input type="time" name="old_time" required>
       New Time:
-      <input type="time" required>
+      <input type="time" name="new_time" required>
       <br>
       Old Doctor:
-      <input type="text" placeholder="John Doe" required>
+      <input type="text" name="old_doctor" placeholder="John Doe" required>
       New Doctor:
-      <input type="text" placeholder="John Doe" required>
+      <input type="text" name="new_doctor" placeholder="John Doe" required>
       <br>
       Patient Name:
-      <input type="text" placeholder="Jane Doe" required>
+      <input type="text" name="patient_name" placeholder="Jane Doe" required>
       <br><br>
       <input type="submit" value="Submit">
     </form>
   </div>
   
   <div id="SchedCancel" class="inputcontent">
-    <form>
+    <form action="http://localhost:8080/HCSystemApp/ScheduleServlet">
       Date:
-      <input type="date" required>
+      <input type="date" name="cancel_date" required>
       Time:
-      <input type="time" required>
+      <input type="time" name="cancel_time" required>
       Doctor:
-      <input type="text" placeholder="John Doe" required>
+      <input type="text" name="cancel_doctor" placeholder="John Doe" required>
       Patient Name:
-      <input type="text" placeholder="Jane Doe" required>
+      <input type="text" name="patient_name" placeholder="Jane Doe" required>
       <br><br>
       <input type="submit" value="Submit">
     </form>

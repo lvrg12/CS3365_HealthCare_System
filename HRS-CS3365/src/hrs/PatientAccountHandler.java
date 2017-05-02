@@ -41,11 +41,11 @@ public class PatientAccountHandler //handler
 	}
 	
 	//returns true if an account with given SSN already exists on the the database
-	public boolean accountExists(int SSN)
+	public boolean accountExists(String SSN)
 	{
 		try
 		{			
-			resultSet = statement.executeQuery("SELECT * FROM "+tableName+" WHERE SSN = "+SSN);
+			resultSet = statement.executeQuery("SELECT * FROM "+tableName+" WHERE SSN = '"+SSN+"'");
 			return resultSet.first();
 		}
 		catch(SQLException sqlException)
@@ -57,9 +57,9 @@ public class PatientAccountHandler //handler
 	
 	//adds a new account with given values to database
 	//note: throws an error if given SSN already exists
-	public void addAccount(String patientName, String address, String phoneNumber, String email, int SSN)
+	public void addAccount(String patientName, String address, String phoneNumber, String email, String SSN)
 	{
-		String values = "('"+patientName+"','"+address+"','"+phoneNumber+"','"+email+"',"+SSN+")";
+		String values = "('"+patientName+"','"+address+"','"+phoneNumber+"','"+email+"','"+SSN+"')";
 		try
 		{
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
@@ -71,11 +71,11 @@ public class PatientAccountHandler //handler
 	}
 	
 	//sets the name of patient with the given SSN
-	public void setName(String patientName, int SSN)
+	public void setName(String patientName, String SSN)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET patient_name = '"+patientName+"' WHERE SSN = "+SSN+";");
+			statement.execute("UPDATE "+tableName+" SET patient_name = '"+patientName+"' WHERE SSN = '"+SSN+"';");
 		}
 		catch(SQLException sqlException)
 		{
@@ -84,11 +84,11 @@ public class PatientAccountHandler //handler
 	}
 	
 	//sets the address of patient with the given SSN
-	public void setAddress(String address, int SSN)
+	public void setAddress(String address, String SSN)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET address = '"+address+"' WHERE SSN = "+SSN+";");
+			statement.execute("UPDATE "+tableName+" SET address = '"+address+"' WHERE SSN = '"+SSN+"';");
 		}
 		catch(SQLException sqlException)
 		{
@@ -97,11 +97,11 @@ public class PatientAccountHandler //handler
 	}
 	
 	//sets the phoneNumber of patient with the given SSN
-	public void setPhoneNumber(String phoneNumber, int SSN)
+	public void setPhoneNumber(String phoneNumber, String SSN)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET phone_number = '"+phoneNumber+"' WHERE SSN = "+SSN+";");
+			statement.execute("UPDATE "+tableName+" SET phone_number = '"+phoneNumber+"' WHERE SSN = '"+SSN+"';");
 		}
 		catch(SQLException sqlException)
 		{
@@ -110,11 +110,11 @@ public class PatientAccountHandler //handler
 	}
 	
 	//sets the email of patient with the given SSN
-	public void setEmail(String email, int SSN)
+	public void setEmail(String email, String SSN)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET email = '"+email+"' WHERE SSN = "+SSN+";");
+			statement.execute("UPDATE "+tableName+" SET email = '"+email+"' WHERE SSN = '"+SSN+"';");
 		}
 		catch(SQLException sqlException)
 		{
@@ -167,7 +167,8 @@ public class PatientAccountHandler //handler
 	{
 		try
 		{
-			resultSet.close();
+			if(resultSet!=null)
+				resultSet.close();
 			statement.close();
 			connection.close();
 		}

@@ -34,10 +34,25 @@ function fillTable(headName, tableName)
 	{
 		fillPatientAccountTable(headName, tableName);
 	}
+	else if(tableName == "TreatRecTable")
+	{
+		fillTreatmentTable(headName, tableName);
+	}
+	else if(tableName == "PayRecTable")
+	{
+		fillPaymentTable(headName, tableName);
+	}
+	/*
+	else if(tableName == "ReportsTable")
+	{
+		fillTreatmentTable(headName, tableName);
+	}
 	else
 	{
-		//fill rest of tables
+		fillTreatmentTable(headName, tableName);
 	}
+	*/
+	else{}
 }
 
 function fillScheduleTable(headName, tableName)
@@ -121,6 +136,124 @@ function fillPatientAccountTable(headName, tableName)
 				
 				cell = row.insertCell(i++);
 				cell.innerHTML = "<%=email%>";
+				i=0;
+	<%
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	%>
+}
+
+function fillTreatmentTable(headName, tableName)
+{
+	var table = document.getElementById(tableName);
+    var i=0, row, cell;
+    
+	<%
+		try
+		{
+			connection = DriverManager.getConnection(DATABASE_URL, username, password);
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM treatment_table";
+			resultSet = statement.executeQuery(sql);
+			String SSN,date,weight,height,blood_pressure;
+			String reason_for_visit,treatment,prescription;
+			
+			while(resultSet.next())
+			{
+				SSN = resultSet.getString(1);
+				date = resultSet.getString(2);
+				weight = resultSet.getString(3);
+				height = resultSet.getString(4);
+				blood_pressure = resultSet.getString(5);
+				reason_for_visit = resultSet.getString(6);
+				treatment = resultSet.getString(7);
+				prescription = resultSet.getString(8);
+	%>
+				row = addAfter(headName);
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=SSN%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=date%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=weight%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=height%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=blood_pressure%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=reason_for_visit%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=treatment%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=prescription%>";
+				i=0;
+	<%
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	%>
+}
+
+function fillPaymentTable(headName, tableName)
+{
+	var table = document.getElementById(tableName);
+    var i=0, row, cell;
+    
+	<%
+		try
+		{
+			connection = DriverManager.getConnection(DATABASE_URL, username, password);
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM payment_table";
+			resultSet = statement.executeQuery(sql);
+			String SSN,date,payment_type,is_paid;
+			String amount, payment_ref, card;
+			
+			while(resultSet.next())
+			{
+				SSN = resultSet.getString(1);
+				date = resultSet.getString(2);
+				payment_type = resultSet.getString(3);
+				is_paid = resultSet.getString(4);
+				amount = resultSet.getString(5);
+				payment_ref = resultSet.getString(6);
+				card = resultSet.getString(7);
+	%>
+				row = addAfter(headName);
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=SSN%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=date%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=payment_type%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=is_paid%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=amount%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=payment_ref%>";
+				
+				cell = row.insertCell(i++);
+				cell.innerHTML = "<%=card%>";
 				i=0;
 	<%
 			}

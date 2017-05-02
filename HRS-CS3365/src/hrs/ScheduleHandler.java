@@ -45,7 +45,7 @@ public class ScheduleHandler
         }
 	}
 	
-	//returns true if an appointment with given doctor,date,halfHour
+	//returns true if an appointment with given doctor,date,halfHour exists
 	public boolean appointmentExists(String doctor, String date, String halfHour)
 	{
 		try
@@ -78,10 +78,10 @@ public class ScheduleHandler
 	
 	//creates a new appointment with given values to database and deletes old appointment
 	//note: throws an error if given doctor,date,halfHour already exists
-	public void changeAppointment(String doctor, String date, String halfHour, String patientName, String newDoctor, String newDate, String newHalfHour)
+	public void changeAppointment(String old_doctor, String old_date, String old_time, String patient_name, String new_doctor, String new_date, String new_time)
 	{
-		createAppointment(newDoctor,newDate,newHalfHour,patientName);
-		cancelAppointment(doctor,date,halfHour);
+		createAppointment(new_doctor,new_date,new_time,patient_name);
+		cancelAppointment(old_doctor,old_date,old_time);
 	}
 	
 	//deletes appointment
@@ -142,7 +142,8 @@ public class ScheduleHandler
 	{
 		try
 		{
-			resultSet.close();
+			if(resultSet!=null)
+				resultSet.close();
 			statement.close();
 			connection.close();
 		}

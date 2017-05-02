@@ -189,7 +189,8 @@ public class TreatmentHandler
 	{
 		try
 		{
-			resultSet.close();
+			if(resultSet!=null)
+				resultSet.close();
 			statement.close();
 			connection.close();
 		}

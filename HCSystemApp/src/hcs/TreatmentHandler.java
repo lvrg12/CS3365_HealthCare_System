@@ -42,11 +42,9 @@ public class TreatmentHandler
 	
 	//adds a new account with given values to database
 	//note: throws an error if given SSN and date already exist
-	public void addTreatmentRecord(int SSN, String date, double weight, double height, int bloodPressure,
-							String reasonForVisit, String treatment, String prescription)
+	public void addTreatmentRecord(String SSN, String date)
 	{
-		String values = "("+SSN+",'"+date+"',"+weight+","+height+","+bloodPressure+",'"+reasonForVisit
-							+"','"+treatment+"','"+prescription+"')";
+		String values = "('"+SSN+"','"+date+"')";
 		try
 		{
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
@@ -57,13 +55,14 @@ public class TreatmentHandler
 		}
 	}
 	
-	//sets the weight of patient with the given SSN and date
-	public void setWeight(double weight, int SSN, String date)
+	public void updateTreatmentRecord(String SSN, String date, String weight, String height, String bloodPressure,
+						String reasonForVisit)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET weight = '"+weight+"' WHERE SSN = "+SSN
-								+" AND date = '"+date+"';");
+			statement.execute("UPDATE "+tableName+" SET weight = "+weight+", height = "+height
+					+", blood_pressure = "+bloodPressure+", reason_for_visit = "+reasonForVisit
+					+" WHERE SSN = '"+SSN+"' AND date = '"+date+"';");
 		}
 		catch(SQLException sqlException)
 		{
@@ -71,72 +70,25 @@ public class TreatmentHandler
 		}
 	}
 	
-	//sets the height of patient with the given SSN and date
-	public void setHeight(double height, int SSN, String date)
+	public void updateTreatmentRecord(String SSN, String date, String treatment, String prescription)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET height = '"+height+"' WHERE SSN = "+SSN
-								+" AND date = '"+date+"';");
+			statement.execute("UPDATE "+tableName+" SET treatment = '"+treatment
+			+", prescription = "+prescription+" WHERE SSN = '"+SSN+"' AND date = '"+date+"';");
 		}
 		catch(SQLException sqlException)
 		{
 			sqlException.printStackTrace();
 		}
 	}
-	
-	//sets the bloodPressure of patient with the given SSN and date
-	public void setBloodPressure(int bloodPressure, int SSN, String date)
+
+	public void deleteTreatmentRecord(String SSN, String date)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET blood_pressure = '"
-								+bloodPressure+"' WHERE SSN = "+SSN
-								+" AND date = '"+date+"';");
-		}
-		catch(SQLException sqlException)
-		{
-			sqlException.printStackTrace();
-		}
-	}
-	
-	//sets the reasonForVisit of patient with the given SSN and date
-	public void setReasonForVisit(String reasonForVisit, int SSN, String date)
-	{
-		try
-		{
-			statement.execute("UPDATE "+tableName+" SET reason_for_visit = '"
-								+reasonForVisit+"' WHERE SSN = "+SSN
-								+" AND date = '"+date+"';");
-		}
-		catch(SQLException sqlException)
-		{
-			sqlException.printStackTrace();
-		}
-	}
-	
-	//sets the treatment of patient with the given SSN and date
-	public void setTreatment(String treatment, int SSN, String date)
-	{
-		try
-		{
-			statement.execute("UPDATE "+tableName+" SET treatment = '"+treatment+"' WHERE SSN = "+SSN
-								+" AND date = '"+date+"';");
-		}
-		catch(SQLException sqlException)
-		{
-			sqlException.printStackTrace();
-		}
-	}
-	
-	//sets the prescription of patient with the given SSN and date
-	public void setPrescription(String prescription, int SSN, String date)
-	{
-		try
-		{
-			statement.execute("UPDATE "+tableName+" SET prescription = '"
-								+prescription+"' WHERE SSN = "+SSN
-								+" AND date = '"+date+"';");
+			statement.execute("DELETE FROM "+tableName+" WHERE SSN = '"+SSN
+					+"' AND date = '"+date+"';");
 		}
 		catch(SQLException sqlException)
 		{

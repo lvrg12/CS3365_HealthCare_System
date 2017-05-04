@@ -32,7 +32,7 @@
       <th style="width: 5%">SSN</th>
       <th style="width: 20%">Patient Name</th>
       <th style="width: 20%">Address</th>
-      <th style="width: 5%">Phone Number</th>
+      <th style="width: 10%">Phone Number</th>
       <th style="width: 20%">Email</th>
     </tr>
   </table>
@@ -40,11 +40,11 @@
 
 <center>
   <div style="margin:20px">
-  	<button class="inputlinks" style="width:30%" onclick="openInputTab(event, 'PatientAccInput')">Create New Patient Account</button>
-    <button class="inputlinks" style="width: 30%" onclick="openInputTab(event, 'PatientAccInput')">Update Patient Account</button>
+  	<button class="inputlinks" style="width:30%" onclick="openInputTab(event, 'CreatePatientAcc')">Create New Patient Account</button>
+    <button class="inputlinks" style="width: 30%" onclick="openInputTab(event, 'CreatePatientAcc')">Update Patient Account</button>
   </div>
   
-  <div id="PatientAccInput" class="inputcontent">
+  <div id="CreatePatientAcc" class="inputcontent">
     <form action="http://localhost:8080/HCSystemApp/PatientAccountServlet">
       SSN:
       <input type="text" name="SSN" placeholder="### - ## - ####" required>
@@ -168,24 +168,24 @@
   </div>
   
   <div id="TreatRecInput" class="inputcontent">
-    <form>
+    <form action="http://localhost:8080/HCSystemApp/TreatmentServlet">
       SSN:
-      <input type="text" placeholder="### - ## - ####" required>
+      <input type="text" name="SSN" placeholder="### - ## - ####" required>
       Date:
-      <input type="date" required>
+      <input type="date" name="date" required>
       Weight:
-      <input type="text" placeholder="125 lbs" required>
+      <input type="text" name="weight" placeholder="125 lbs" required>
       Height:
-      <input type="text" placeholder="#'##''" required>
+      <input type="text" name="height" placeholder="#'##''" required>
       Blood Pressure:
-      <input type="text" placeholder="###/##" required>
+      <input type="text" name="blood_pressure" placeholder="###/##" required>
       <br>
       Reason for Visit:
-      <input type="text" placeholder="Ear infection" required>
+      <input type="text" name="reason_for_visit" placeholder="Ear infection" required>
       Treatment:
-      <input type="text" placeholder="None" required>
+      <input type="text" name="treatment" placeholder="None" required>
       Prescription:
-      <input type="text" placeholder="Amoxicillin" required>
+      <input type="text" name="prescription" placeholder="Amoxicillin" required>
       <br><br>
       <input type="submit" value="Submit">
     </form>

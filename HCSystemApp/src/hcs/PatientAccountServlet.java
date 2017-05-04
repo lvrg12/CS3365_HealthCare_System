@@ -24,14 +24,15 @@ public class PatientAccountServlet extends HttpServlet
 		phone_number = request.getParameter("phone_number");
 		email = request.getParameter("email");
 		
-		//creating patient account
-		if(SSN!=null)
+		if(!patientAccountTable.accountExists(SSN))
 		{
-			if(!patientAccountTable.accountExists(SSN))
-			{
-				patientAccountTable.addAccount(patient_name, address, phone_number, email, SSN);
-			}
+			patientAccountTable.addAccount(patient_name, address, phone_number, email, SSN);
 		}
+		else
+		{
+			patientAccountTable.updateAccount(patient_name, address, phone_number, email, SSN);
+		}
+
 		
 		patientAccountTable.close();
 		response.sendRedirect("web/HCS.jsp"); // redirecting to client file

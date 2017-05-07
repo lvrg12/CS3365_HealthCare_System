@@ -42,12 +42,55 @@ public class TreatmentHandler
 	
 	//adds a new account with given values to database
 	//note: throws an error if given SSN and date already exist
+	public void addTreatmentRecord(String SSN, String date, String weight, String height, String blood_pressure, String reason_for_visit, String treatment, String prescription)
+	{
+		String values = "('"+SSN+"','"+date+"','"+weight+"',\""+height+"\",'"+blood_pressure+"','"+reason_for_visit+"','"+treatment+"','"+prescription+"')";
+		try
+		{
+			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
+			
+			//adding record for reports_table
+			resultSet = statement.executeQuery("SELECT doctor FROM schedule_table WHERE patient_name = (SELECT patient_name FROM patient_account_table WHERE SSN = '"+SSN+"') AND date = '"+date+"'");
+			resultSet.next();
+			String doctor = resultSet.getString(1);
+			
+			if(doctorRecordExists(doctor,date))
+			{
+				statement.execute("UPDATE reports_table SET num_patients = num_patients+1 WHERE doctor = '"+doctor+"' AND date = '"+date+"'");
+			}
+			else //updating record for reports_table
+			{
+				statement.execute("INSERT INTO reports_table VALUES ('"+date+"','"+doctor+"',"+1+","+0+")");
+			}
+		}
+		catch(SQLException sqlException)
+		{
+			sqlException.printStackTrace();
+		}
+	}
+	
+	//adds a new account with given values to database
+	//note: throws an error if given SSN and date already exist
 	public void addTreatmentRecord(String SSN, String date)
 	{
 		String values = "('"+SSN+"','"+date+"')";
 		try
 		{
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
+			
+			//adding record for reports_table
+			resultSet = statement.executeQuery("SELECT doctor FROM schedule_table WHERE patient_name = (SELECT patient_name FROM patient_account_table WHERE SSN = '"+SSN+"') AND date = '"+date+"'");
+			resultSet.next();
+			String doctor = resultSet.getString(1);
+			
+			if(doctorRecordExists(doctor,date))
+			{
+				statement.execute("UPDATE reports_table SET num_patients = num_patients+1 WHERE doctor = '"+doctor+"' AND date = '"+date+"'");
+			}
+			else //updating record for reports_table
+			{
+				statement.execute("INSERT INTO reports_table VALUES ('"+date+"','"+doctor+"',"+1+","+0+")");
+			}
 		}
 		catch(SQLException sqlException)
 		{
@@ -93,6 +136,22 @@ public class TreatmentHandler
 		catch(SQLException sqlException)
 		{
 			sqlException.printStackTrace();
+		}
+	}
+	
+	//returns true if a doctor exists for a given date in the reports table
+	public boolean doctorRecordExists(String doctor, String date)
+	{
+		try
+		{			
+			resultSet = statement.executeQuery("SELECT * FROM reports_table WHERE doctor = '"+doctor
+								+"' AND date = '"+date+"';");
+			return resultSet.first();
+		}
+		catch(SQLException sqlException)
+		{
+			sqlException.printStackTrace();
+			return false;
 		}
 	}
 	

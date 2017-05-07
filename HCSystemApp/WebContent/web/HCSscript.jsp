@@ -41,12 +41,12 @@ function openInputTab(evt, tabName) {
 <jsp:include page="fillTable.jsp" />
 
 <script>
-fillTable("PatientAccHead", "PatientAccTable");
-fillTable("SchedHead", "SchedTable");
-fillTable("TreatRecHead", "TreatRecTable");
-fillTable("PayRecHead", "PayRecTable");
-fillTable("ReportsHead", "ReportsTable");
-fillTable("PatientPayHead", "PatientPayTable");
+fillPatientAccountTable("PatientAccHead", "PatientAccTable");
+fillScheduleTable("SchedHead", "SchedTable");
+fillTreatmentTable("TreatRecHead", "TreatRecTable");
+fillPaymentTable("PayRecHead", "PayRecTable");
+fillReportsTable("ReportsHead", "ReportsTable");
+fillPatientPaymentTable("PatientPayHead", "PatientPayTable");
 
 function addAfter(rowId){
     var target = document.getElementById(rowId);

@@ -27,9 +27,9 @@ public class TreatmentServlet extends HttpServlet
 		treatment = request.getParameter("treatment");
 		prescription = request.getParameter("prescription");
 		
+		treatmentTable.addTreatmentRecord(SSN, date, weight, height, blood_pressure, reason_for_visit, treatment, prescription);
 		
-		
-		
+		/*
 		if(SSN=="thing")//permissions for staff
 		{
 			treatmentTable.addTreatmentRecord(SSN, date);
@@ -42,6 +42,7 @@ public class TreatmentServlet extends HttpServlet
 		{
 			treatmentTable.updateTreatmentRecord(SSN, date, treatment, prescription);
 		}
+		*/
 		
 		treatmentTable.close();
 		response.sendRedirect("web/HCS.jsp"); // redirecting to client file

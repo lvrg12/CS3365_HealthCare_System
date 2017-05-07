@@ -29,11 +29,12 @@
 <center>
   <table id="PatientAccTable">
     <tr id="PatientAccHead">
-      <th style="width: 5%">SSN</th>
+      <th style="width: 10%">SSN</th>
       <th style="width: 20%">Patient Name</th>
       <th style="width: 20%">Address</th>
       <th style="width: 10%">Phone Number</th>
       <th style="width: 20%">Email</th>
+      <th style="width: 10%">Insurance Name</th>
     </tr>
   </table>
 </center>
@@ -57,6 +58,8 @@
       <input type="tel" name="phone_number" placeholder="(###)  ### - ####" required>
       Email:
       <input type="email" name="email" placeholder="john.doe@hrsmail.com" required>
+      Insurance Name:
+      <input type="insurance" name="insurance" placeholder="HCS HealthCare" required>
       <br><br>
       <input type="submit" value="Submit">
     </form>
@@ -89,11 +92,34 @@
   <div id="SchedCreate" class="inputcontent">
     <form action="http://localhost:8080/HCSystemApp/ScheduleServlet">
       Date:
-      <input type="date" name="create_date" required>
+      <input type="date" name="create_date" placeholder="mm/dd/yyyy" required>
       Time:
-      <input type="time" name="create_time" required>
+      <select name="create_time">
+		  <option value="09:00">09:00</option>
+		  <option value="09:30">09:30</option>
+		  <option value="10:00">10:00</option>
+		  <option value="10:30">10:30</option>
+		  <option value="11:00">11:00</option>
+		  <option value="11:30">11:30</option>
+		  <option value="12:00">12:00</option>
+		  <option value="12:30">12:30</option>
+		  <option value="13:00">13:00</option>
+		  <option value="13:30">13:30</option>
+		  <option value="14:00">14:00</option>
+		  <option value="14:30">14:30</option>
+		  <option value="15:00">15:00</option>
+		  <option value="15:30">15:30</option>
+		  <option value="16:00">16:00</option>
+		  <option value="16:30">16:30</option>
+	  </select>
       Doctor:
-      <input type="text" placeholder="John Doe" name="create_doctor" required>
+      <select name="create_doctor">
+		  <option value="Alice Allen">Alice Allen</option>
+		  <option value="Bob Brown">Bob Brown</option>
+		  <option value="Chris Christie">Chris Christie</option>
+		  <option value="Julie Jones">Julie Jones</option>
+		  <option value="Tracy Thomas">Tracy Thomas</option>
+	  </select>
       Patient Name:
       <input type="text" placeholder="Jane Doe" name="patient_name" required>
       <br><br>
@@ -104,19 +130,65 @@
   <div id="SchedChange" class="inputcontent">
     <form action="http://localhost:8080/HCSystemApp/ScheduleServlet">
       Old Date:
-      <input type="date" name="old_date" required>
+      <input type="date" name="old_date" placeholder="mm/dd/yyyy" required>
       New Date:
-      <input type="date" name="new_date"required>
+      <input type="date" name="new_date" placeholder="mm/dd/yyyy" required>
       <br>
       Old Time:
-      <input type="time" name="old_time" required>
+      <select name="old_time">
+		  <option value="09:00">09:00</option>
+		  <option value="09:30">09:30</option>
+		  <option value="10:00">10:00</option>
+		  <option value="10:30">10:30</option>
+		  <option value="11:00">11:00</option>
+		  <option value="11:30">11:30</option>
+		  <option value="12:00">12:00</option>
+		  <option value="12:30">12:30</option>
+		  <option value="13:00">13:00</option>
+		  <option value="13:30">13:30</option>
+		  <option value="14:00">14:00</option>
+		  <option value="14:30">14:30</option>
+		  <option value="15:00">15:00</option>
+		  <option value="15:30">15:30</option>
+		  <option value="16:00">16:00</option>
+		  <option value="16:30">16:30</option>
+	  </select>
       New Time:
-      <input type="time" name="new_time" required>
+      <select name="new_time">
+		  <option value="09:00">09:00</option>
+		  <option value="09:30">09:30</option>
+		  <option value="10:00">10:00</option>
+		  <option value="10:30">10:30</option>
+		  <option value="11:00">11:00</option>
+		  <option value="11:30">11:30</option>
+		  <option value="12:00">12:00</option>
+		  <option value="12:30">12:30</option>
+		  <option value="13:00">13:00</option>
+		  <option value="13:30">13:30</option>
+		  <option value="14:00">14:00</option>
+		  <option value="14:30">14:30</option>
+		  <option value="15:00">15:00</option>
+		  <option value="15:30">15:30</option>
+		  <option value="16:00">16:00</option>
+		  <option value="16:30">16:30</option>
+	  </select>
       <br>
       Old Doctor:
-      <input type="text" name="old_doctor" placeholder="John Doe" required>
+      <select name="old_doctor">
+		  <option value="Alice Allen">Alice Allen</option>
+		  <option value="Bob Brown">Bob Brown</option>
+		  <option value="Chris Christie">Chris Christie</option>
+		  <option value="Julie Jones">Julie Jones</option>
+		  <option value="Tracy Thomas">Tracy Thomas</option>
+	  </select>
       New Doctor:
-      <input type="text" name="new_doctor" placeholder="John Doe" required>
+      <select name="new_doctor">
+		  <option value="Alice Allen">Alice Allen</option>
+		  <option value="Bob Brown">Bob Brown</option>
+		  <option value="Chris Christie">Chris Christie</option>
+		  <option value="Julie Jones">Julie Jones</option>
+		  <option value="Tracy Thomas">Tracy Thomas</option>
+	  </select>
       <br>
       Patient Name:
       <input type="text" name="patient_name" placeholder="Jane Doe" required>
@@ -128,11 +200,34 @@
   <div id="SchedCancel" class="inputcontent">
     <form action="http://localhost:8080/HCSystemApp/ScheduleServlet">
       Date:
-      <input type="date" name="cancel_date" required>
+      <input type="date" name="cancel_date" placeholder="mm/dd/yyyy" required>
       Time:
-      <input type="time" name="cancel_time" required>
+      <select name="cancel_time">
+		  <option value="09:00">09:00</option>
+		  <option value="09:30">09:30</option>
+		  <option value="10:00">10:00</option>
+		  <option value="10:30">10:30</option>
+		  <option value="11:00">11:00</option>
+		  <option value="11:30">11:30</option>
+		  <option value="12:00">12:00</option>
+		  <option value="12:30">12:30</option>
+		  <option value="13:00">13:00</option>
+		  <option value="13:30">13:30</option>
+		  <option value="14:00">14:00</option>
+		  <option value="14:30">14:30</option>
+		  <option value="15:00">15:00</option>
+		  <option value="15:30">15:30</option>
+		  <option value="16:00">16:00</option>
+		  <option value="16:30">16:30</option>
+	  </select>
       Doctor:
-      <input type="text" name="cancel_doctor" placeholder="John Doe" required>
+      <select name="cancel_doctor">
+		  <option value="Alice Allen">Alice Allen</option>
+		  <option value="Bob Brown">Bob Brown</option>
+		  <option value="Chris Christie">Chris Christie</option>
+		  <option value="Julie Jones">Julie Jones</option>
+		  <option value="Tracy Thomas">Tracy Thomas</option>
+	  </select>
       Patient Name:
       <input type="text" name="patient_name" placeholder="Jane Doe" required>
       <br><br>
@@ -172,7 +267,7 @@
       SSN:
       <input type="text" name="SSN" placeholder="### - ## - ####" required>
       Date:
-      <input type="date" name="date" required>
+      <input type="date" name="date" placeholder="mm/dd/yyyy" required>
       Weight:
       <input type="text" name="weight" placeholder="125 lbs" required>
       Height:
@@ -200,13 +295,13 @@
 <center>
    <table id="PayRecTable">
     <tr id="PayRecHead">
-      <th style="width: 5%">SSN</th>
+      <th style="width: 10%">Patient Name</th>
       <th style="width: 5%">Date</th>
       <th style="width: 10%">Payment Type</th>
       <th style="width: 10%">Payment Status</th>
       <th style="width: 10%">Payment Amount</th>
       <th style="width: 5%">Reference #</th>
-      <th style="width: 10%">Card #</th>
+      <th style="width: 10%">Card/Check #</th>
     </tr>
    </table>
 </center>
@@ -214,35 +309,45 @@
 <center>
   <div style="margin:20px">
   	<button class="inputlinks" style="width:30%" onclick="openInputTab(event, 'PayRecCreate')">Create New Patient Payment Record</button>
-    <button class="inputlinks" style="width: 30%" onclick="openInputTab(event, 'PayRecUpdate')">Update Patient Payment Record</button>
+    <button class="inputlinks" style="width: 30%" onclick="openInputTab(event, 'PayRecUpdate')">Make Copay Payment</button>
   </div>
   
   <div id="PayRecCreate" class="inputcontent">
-    <form>
-      SSN:
-      <input type="text" placeholder="### - ## - ####" required>
+    <form action="http://localhost:8080/HCSystemApp/PaymentServlet">
+      Patient Name:
+      <input name="create_patient_name" type="text" placeholder="Jane Doe" required>
       Date:
-      <input type="date" required>
+      <input name="create_date" type="date" placeholder="mm/dd/yyyy" required>
       Payment Type:
-      <input type="text" placeholder="Invoice" required>
+      <select name="create_payment_type">
+		  <option value="Invoice">Invoice</option>
+		  <option value="Copay">Copay</option>
+	  </select>
       Payment Amount:
-      <input type="number" required>
+      <input name="create_amount" type="number" placeholder="$100.00" required>
       <br><br>
       <input type="submit" value="Submit">
     </form>
   </div>
   
   <div id="PayRecUpdate" class="inputcontent">
-    <form>
-      SSN:
-      <input type="text" placeholder="### - ## - ####" required>
+    <form action="http://localhost:8080/HCSystemApp/PaymentServlet">
+      Patient Name:
+      <input name="update_patient_name" type="text" placeholder="Jane Doe" required>
       Date:
-      <input type="date" required>
+      <input name="update_date" type="date" placeholder="mm/dd/yyyy" required>
       <br>
       Payment Method:
-      <input type="text" placeholder="Debit" required>
+      <select name="update_method">
+		  <option value="Debit">Debit</option>
+		  <option value="Credit">Credit</option>
+		  <option value="Cash">Cash</option>
+		  <option value="Check">Check</option>
+	  </select>
       Card/Check Number (if needed):
-      <input type="text" placeholder="#### - #### - ####">
+      <input name="update_card" type="text" placeholder="#### - #### - ####">
+      Receipt Desired:
+      <input name="update_receipt_given" type="checkbox">
       <br><br>
       <input type="submit" value="Submit">
     </form>
@@ -272,18 +377,18 @@
   </div>
   
   <div id="ReportsDaily" class="inputcontent">
-    <form>
+  	<form>
       Date to be Viewed:
-      <input type="date" required>
+      <input name="date" type="date" placeholder="mm/dd/yyyy" required>
       <br><br>
-      <input type="submit" value="Submit">
-    </form>
+       <input type="submit" value="Submit">
+  	</form>
   </div>
   
   <div id="ReportsMonthly" class="inputcontent">
     <form>
       Month to be Viewed:
-      <input type="month" required>
+      <input name="month" type="month" placeholder="month yyyy" required>
       <br><br>
       <input type="submit" value="Submit">
     </form>
@@ -298,7 +403,7 @@
 <center>
    <table id="PatientPayTable">
     <tr id="PatientPayHead">
-      <th style="width: 5%">SSN</th>
+      <th style="width: 10%">Patient Name</th>
       <th style="width: 5%">Date</th>
       <th style="width: 10%">Payment Status</th>
       <th style="width: 10%">Payment Amount</th>
@@ -311,19 +416,19 @@
 
 <center>
   <div style="margin:20px">
-  	<button class="inputlinks" style="width:30%" onclick="openInputTab(event, 'PatientPayMakePay')">Make Payment</button>
+  	<button class="inputlinks" style="width:30%" onclick="openInputTab(event, 'PatientPayMakePay')">Make Invoice Payment</button>
   </div>
   
   <div id="PatientPayMakePay" class="inputcontent">
-    <form>
-      SSN:
-      <input type="text" placeholder="### - ## - ####" required>
+    <form action="http://localhost:8080/HCSystemApp/PatientPaymentServlet">
+      Patient Name:
+      <input name="patient_name" type="text" placeholder="Jane Doe" required>
       Date:
-      <input type="date" required>
+      <input name="date" type="date" placeholder="mm/dd/yyyy" required>
       Card Number:
-      <input type="text" placeholder="### - #### - ####" required>
+      <input name="card" type="text" placeholder="#### - #### - #### - ####" required>
       Receipt Desired:
-      <input type="checkbox">
+      <input name="receipt_given" type="checkbox">
       <br><br>
       <input type="submit" value="Submit">
     </form>

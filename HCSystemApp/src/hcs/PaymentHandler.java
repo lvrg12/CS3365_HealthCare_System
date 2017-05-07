@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 
 public class PaymentHandler
 {
@@ -47,13 +48,18 @@ public class PaymentHandler
 	
 	//adds a new payment record with given values to database
 	//note: throws an error if given SSN and date already exist
-	public void addPaymentRecord(int SSN, String date, String paymentType, boolean isPaid, double amount,
-							int paymentRef, int card)
+	public void createPaymentRecord(String patient_name, String date, String payment_type, double amount)
 	{
-		String values = "("+SSN+",'"+date+"','"+paymentType+"',"+isPaid+","+amount+","+paymentRef+",'"+card+"')";
+		String values = "('"+patient_name+"','"+date+"','"+payment_type+"','Unpaid',"+amount+",null,null,null)";
 		try
-		{
+		{			
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
+			
+			//updating reports
+			resultSet = statement.executeQuery("SELECT doctor FROM schedule_table WHERE patient_name = '"+patient_name+"' AND date = '"+date+"'");
+			resultSet.next();
+			String doctor = resultSet.getString(1);
+			statement.execute("UPDATE reports_table SET income = income+"+amount+" WHERE doctor = '"+doctor+"' AND date = '"+date+"'");
 		}
 		catch(SQLException sqlException)
 		{
@@ -61,13 +67,22 @@ public class PaymentHandler
 		}
 	}
 	
-	//sets the paid of patient with the given SSN, date, paymentType
-	public void setIsPaid(boolean isPaid, int SSN, String date, String paymentType)
+	//adds a new payment record with given values to database
+	//note: throws an error if given SSN and date already exist
+	public void makeCopayPayment(String patient_name, String date, String card, String receipt_given)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET is_paid = "+isPaid+" WHERE SSN = "+SSN
-								+" AND date = '"+date+"' AND payment_type = '"+paymentType+"';");
+			String sql;
+			sql = "UPDATE "+tableName+" SET is_paid = 'Paid',"
+					+ " payment_ref = '"+generatePaymentRef()+"',"
+					+ " receipt_given = '"+receipt_given+"' ,"
+					+ "card = '"+card+"' "
+					+ "WHERE patient_name = '"+patient_name+"' "
+					+ "AND date = '"+date+"' "
+					+ "AND payment_type = 'Copay'";
+			
+			statement.execute(sql);
 		}
 		catch(SQLException sqlException)
 		{
@@ -75,41 +90,22 @@ public class PaymentHandler
 		}
 	}
 	
-	//sets the amount of patient with the given SSN, date, paymentType
-	public void setAmount(double amount, int SSN, String date, String paymentType)
+	//updates payment record to paid
+	public void makeInvoicePayment(String patient_name, String date, String card, String receipt_given)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET amount = "+amount+" WHERE SSN = "+SSN
-								+" AND date = '"+date+"' AND payment_type = '"+paymentType+"';");
-		}
-		catch(SQLException sqlException)
-		{
-			sqlException.printStackTrace();
-		}
-	}
-	
-	//sets the paymentRef of patient with the given SSN, date, paymentType
-	public void setPaymentRef(int paymentRef, int SSN, String date, String paymentType)
-	{
-		try
-		{
-			statement.execute("UPDATE "+tableName+" SET payment_ref = "+paymentRef+" WHERE SSN = "+SSN
-								+" AND date = '"+date+"' AND payment_type = '"+paymentType+"';");
-		}
-		catch(SQLException sqlException)
-		{
-			sqlException.printStackTrace();
-		}
-	}
-	
-	//sets the card number of patient with the given SSN, date, paymentType
-	public void setCard(String card, int SSN, String date, String paymentType)
-	{
-		try
-		{
-			statement.execute("UPDATE "+tableName+" SET card = '"+card+"' WHERE SSN = "+SSN
-								+" AND date = '"+date+"' AND payment_type = '"+paymentType+"';");
+			String sql;
+			sql = "UPDATE "+tableName+" SET is_paid = 'Paid',"
+					+ " payment_ref = '"+generatePaymentRef()+"',"
+					+ " receipt_given = '"+receipt_given+"' ,"
+					+ "card = '"+card+"' "
+					+ "WHERE patient_name = '"+patient_name+"' "
+					+ "AND date = '"+date+"' "
+					+ "AND payment_type = 'Invoice'";
+			
+			statement.execute(sql);
+			
 		}
 		catch(SQLException sqlException)
 		{
@@ -155,6 +151,12 @@ public class PaymentHandler
 		{
 			sqlException.printStackTrace();
 		}
+	}
+	
+	public static int generatePaymentRef()
+	{
+		int rand = (new Random()).nextInt(900000000) + 100000;
+		return rand;
 	}
 	
 	//closes all sql variables handling potential errors/exceptions

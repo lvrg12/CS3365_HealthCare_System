@@ -57,9 +57,9 @@ public class PatientAccountHandler //handler
 	
 	//adds a new account with given values to database
 	//note: throws an error if given SSN already exists
-	public void addAccount(String patientName, String address, String phoneNumber, String email, String SSN)
+	public void addAccount(String patientName, String address, String phoneNumber, String email, String SSN, String insurance)
 	{
-		String values = "('"+patientName+"','"+address+"','"+phoneNumber+"','"+email+"','"+SSN+"')";
+		String values = "('"+patientName+"','"+address+"','"+phoneNumber+"','"+email+"','"+SSN+"','"+insurance+"')";
 		try
 		{
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
@@ -72,10 +72,10 @@ public class PatientAccountHandler //handler
 	
 	//adds a new account with given values to database
 	//note: throws an error if given SSN already exists
-	public void updateAccount(String patientName, String address, String phoneNumber, String email, String SSN)
+	public void updateAccount(String patientName, String address, String phoneNumber, String email, String SSN, String insurance)
 	{
 		deleteAccount(SSN);
-		addAccount(patientName,address,phoneNumber,email,SSN);
+		addAccount(patientName,address,phoneNumber,email,SSN,insurance);
 	}
 	
 	//deletes appointment

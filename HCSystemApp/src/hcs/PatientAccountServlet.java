@@ -17,20 +17,21 @@ public class PatientAccountServlet extends HttpServlet
 		patientAccountTable = new PatientAccountHandler();
 		
 		//retriving data from jsp file
-		String SSN, patient_name, address, phone_number, email;
+		String SSN, patient_name, address, phone_number, email, insurance;
 		SSN = request.getParameter("SSN");
 		patient_name = request.getParameter("patient_name");
 		address = request.getParameter("address");
 		phone_number = request.getParameter("phone_number");
 		email = request.getParameter("email");
+		insurance = request.getParameter("insurance");
 		
 		if(!patientAccountTable.accountExists(SSN))
 		{
-			patientAccountTable.addAccount(patient_name, address, phone_number, email, SSN);
+			patientAccountTable.addAccount(patient_name, address, phone_number, email, SSN, insurance);
 		}
 		else
 		{
-			patientAccountTable.updateAccount(patient_name, address, phone_number, email, SSN);
+			patientAccountTable.updateAccount(patient_name, address, phone_number, email, SSN, insurance);
 		}
 
 		

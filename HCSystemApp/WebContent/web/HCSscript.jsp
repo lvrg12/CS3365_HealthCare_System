@@ -1,4 +1,5 @@
 <script>
+
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     
@@ -36,9 +37,11 @@ function openInputTab(evt, tabName) {
     document.getElementById(tabName).style.display = "inline";
     evt.currentTarget.className += " active";
 }
+
 </script>
 
 <jsp:include page="fillTable.jsp" />
+<jsp:include page="permissions.jsp" />
 
 <script>
 fillPatientAccountTable("PatientAccHead", "PatientAccTable");

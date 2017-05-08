@@ -4,22 +4,24 @@
 <link rel="stylesheet" type="text/css" href="HCSstyle.css" />
 </head>
 
-<body>
+<body onload="permissions()">
 
 <header>
+<form action="HCSLogIn.jsp" method="get">
+	<input type="submit" style="float: right; width: 20%" value="Log Out">
+</form>
 	<h1>HealthCare Reservation System</h1>
 </header>
 
-
 <!-- ***Tabs*** -->
 
-<div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'PatientAcc')">Patient Accounts</button>
-  <button class="tablinks" onclick="openTab(event, 'Sched')">Schedule</button>
-  <button class="tablinks" onclick="openTab(event, 'TreatRec')">Treatment Records</button>
-  <button class="tablinks" onclick="openTab(event, 'PayRec')">Payment Records</button>
-  <button class="tablinks" onclick="openTab(event, 'Reports')">Reports</button>
-  <button class="tablinks" onclick="openTab(event, 'PatientPay')">Patient Payments</button>
+<div class="tab" id="tabs">
+  <button class="tablinks" id="patAccButton" onclick="openTab(event, 'PatientAcc')">Patient Accounts</button>
+  <button class="tablinks" id="schedButton" onclick="openTab(event, 'Sched')">Schedule</button>
+  <button class="tablinks" id="treatRecButton" onclick="openTab(event, 'TreatRec')">Treatment Records</button>
+  <button class="tablinks" id="payRecButton" onclick="openTab(event, 'PayRec')">Payment Records</button>
+  <button class="tablinks" id="repButton" onclick="openTab(event, 'Reports')">Reports</button>
+  <button class="tablinks" id="patPayButton" onclick="openTab(event, 'PatientPay')">Patient Payments</button>
 </div>
 
 
@@ -244,7 +246,7 @@
 <center>
   <table id="TreatRecTable">
     <tr id="TreatRecHead">
-      <th style="width: 5%">SSN</th>
+      <th style="width: 10%">Patient Name</th>
       <th style="width: 5%">Date</th>
       <th style="width: 5%">Weight</th>
       <th style="width: 5%">Height</th>
@@ -258,29 +260,29 @@
 
 <center>
   <div style="margin:20px">
-  	<button class="inputlinks" style="width:30%" onclick="openInputTab(event, 'TreatRecInput')">Create Treatment Record</button>
-    <button class="inputlinks" style="width: 30%" onclick="openInputTab(event, 'TreatRecInput')">Update Treatment Record</button>
+  	<button class="inputlinks" id="createTreatRecTab" style="width:30%" onclick="openInputTab(event, 'TreatRecInput')">Create Treatment Record</button>
+    <button class="inputlinks" id="updateTreatRecTab" style="width: 30%" onclick="openInputTab(event, 'TreatRecInput')">Update Treatment Record</button>
   </div>
   
   <div id="TreatRecInput" class="inputcontent">
     <form action="http://localhost:8080/HCSystemApp/TreatmentServlet">
-      SSN:
-      <input type="text" name="SSN" placeholder="### - ## - ####" required>
-      Date:
-      <input type="date" name="date" placeholder="mm/dd/yyyy" required>
-      Weight:
-      <input type="text" name="weight" placeholder="125 lbs" required>
-      Height:
-      <input type="text" name="height" placeholder="#'##''" required>
-      Blood Pressure:
-      <input type="text" name="blood_pressure" placeholder="###/##" required>
+      <label class="labels" id="patNameTreatRec">Patient Name:</label>
+      	<input class="inputs" type="text" id="patient_name_treatRecInput" name="patient_name_treatRecInput" placeholder="Jane Doe" required>
+      <label class="labels" id="dateTreatRec">Date:</label>
+      	<input class="inputs" type="date" id="date_treatRecInput" name="date_treatRecInput" placeholder="mm/dd/yyyy" required>
+      <label class="labels" id="weightTreatRec">Weight:</label>
+      	<input class="inputs" type="text" id="weight" name="weight" placeholder="125 lbs">
+      <label class="labels" id="heightTreatRec">Height:</label>
+      	<input class="inputs" type="text" id="height" name="height" placeholder="#'##''">
+      <label class="labels" id="BPTreatRec">Blood Pressure:</label>
+      	<input class="inputs" type="text" id="blood_pressure" name="blood_pressure" placeholder="###/##">
       <br>
-      Reason for Visit:
-      <input type="text" name="reason_for_visit" placeholder="Ear infection" required>
-      Treatment:
-      <input type="text" name="treatment" placeholder="None" required>
-      Prescription:
-      <input type="text" name="prescription" placeholder="Amoxicillin" required>
+      <label class="labels" id="reasonTreatRec">Reason for Visit:</label>
+      	<input class="inputs" type="text" id="reason_for_visit" name="reason_for_visit" placeholder="Ear infection">
+      <label class="labels" id="treatmentTreatRec">Treatment:</label>
+        <input class="inputs" type="text" id="treatment" name="treatment" placeholder="None">
+      <label class="labels" id="prescriptionTreatRec">Prescription:</label>
+      	<input class="inputs" type="text" id="prescription" name="prescription" placeholder="Amoxicillin">
       <br><br>
       <input type="submit" value="Submit">
     </form>
@@ -435,6 +437,12 @@
   </div>
 </center>
 </div>
+
+<footer>
+	<form action="http://localhost:8080/HCSystemApp/EndOfDayServlet">
+		<input value="End of Day" type="submit" name="end_day" style="float: right">
+	</form>
+</footer>
 
 <jsp:include page="HCSscript.jsp" />
      

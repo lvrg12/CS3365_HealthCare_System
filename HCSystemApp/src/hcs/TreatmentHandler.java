@@ -40,17 +40,36 @@ public class TreatmentHandler
         }
 	}
 	
+	public String getPermission()
+	{
+		try
+		{
+			//query database
+			resultSet = statement.executeQuery("SELECT * FROM permission_table");
+			resultSet.next();
+			String permission = resultSet.getString(1);
+			return permission;
+			
+		}
+		catch(SQLException sqlException)
+		{
+			sqlException.printStackTrace();
+			return "";
+		}
+		
+	}
+	
 	//adds a new account with given values to database
 	//note: throws an error if given SSN and date already exist
-	public void addTreatmentRecord(String SSN, String date, String weight, String height, String blood_pressure, String reason_for_visit, String treatment, String prescription)
+	public void addTreatmentRecord(String patient_name, String date, String weight, String height, String blood_pressure, String reason_for_visit, String treatment, String prescription)
 	{
-		String values = "('"+SSN+"','"+date+"','"+weight+"',\""+height+"\",'"+blood_pressure+"','"+reason_for_visit+"','"+treatment+"','"+prescription+"')";
+		String values = "('"+patient_name+"','"+date+"','"+weight+"',\""+height+"\",'"+blood_pressure+"','"+reason_for_visit+"','"+treatment+"','"+prescription+"')";
 		try
 		{
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
 			
 			//adding record for reports_table
-			resultSet = statement.executeQuery("SELECT doctor FROM schedule_table WHERE patient_name = (SELECT patient_name FROM patient_account_table WHERE SSN = '"+SSN+"') AND date = '"+date+"'");
+			resultSet = statement.executeQuery("SELECT doctor FROM schedule_table WHERE patient_name = '"+patient_name+"' AND date = '"+date+"'");
 			resultSet.next();
 			String doctor = resultSet.getString(1);
 			
@@ -69,20 +88,22 @@ public class TreatmentHandler
 		}
 	}
 	
+	//staff
 	//adds a new account with given values to database
 	//note: throws an error if given SSN and date already exist
-	public void addTreatmentRecord(String SSN, String date)
+	public void addTreatmentRecord(String patient_name, String date)
 	{
-		String values = "('"+SSN+"','"+date+"')";
+		String values = "('"+patient_name+"','"+date+"',null,null,null,null,null,null)";
 		try
 		{
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
-			
-			//adding record for reports_table
-			resultSet = statement.executeQuery("SELECT doctor FROM schedule_table WHERE patient_name = (SELECT patient_name FROM patient_account_table WHERE SSN = '"+SSN+"') AND date = '"+date+"'");
+			//looking for requested doctor
+			resultSet = statement.executeQuery("SELECT doctor FROM schedule_table WHERE patient_name = '"+patient_name+"' AND date = '"+date+"';");
 			resultSet.next();
 			String doctor = resultSet.getString(1);
+
 			
+			//adding record for reports_table
 			if(doctorRecordExists(doctor,date))
 			{
 				statement.execute("UPDATE reports_table SET num_patients = num_patients+1 WHERE doctor = '"+doctor+"' AND date = '"+date+"'");
@@ -91,6 +112,9 @@ public class TreatmentHandler
 			{
 				statement.execute("INSERT INTO reports_table VALUES ('"+date+"','"+doctor+"',"+1+","+0+")");
 			}
+			
+			//deleting appointment
+			statement.execute("DELETE FROM schedule_table WHERE doctor = '"+doctor+"' AND date = '"+date+"' AND patient_name = '"+patient_name+"';");
 		}
 		catch(SQLException sqlException)
 		{
@@ -98,14 +122,15 @@ public class TreatmentHandler
 		}
 	}
 	
-	public void updateTreatmentRecord(String SSN, String date, String weight, String height, String bloodPressure,
+	//nurse
+	public void updateTreatmentRecord(String patient_name, String date, String weight, String height, String bloodPressure,
 						String reasonForVisit)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET weight = "+weight+", height = "+height
-					+", blood_pressure = "+bloodPressure+", reason_for_visit = "+reasonForVisit
-					+" WHERE SSN = '"+SSN+"' AND date = '"+date+"';");
+			statement.execute("UPDATE "+tableName+" SET weight = '"+weight+"', height = \""+height
+					+"\", blood_pressure = '"+bloodPressure+"', reason_for_visit = '"+reasonForVisit
+					+"' WHERE patient_name = '"+patient_name+"' AND date = '"+date+"';");
 		}
 		catch(SQLException sqlException)
 		{
@@ -113,12 +138,13 @@ public class TreatmentHandler
 		}
 	}
 	
-	public void updateTreatmentRecord(String SSN, String date, String treatment, String prescription)
+	//doctor
+	public void updateTreatmentRecord(String patient_name, String date, String treatment, String prescription)
 	{
 		try
 		{
 			statement.execute("UPDATE "+tableName+" SET treatment = '"+treatment
-			+", prescription = "+prescription+" WHERE SSN = '"+SSN+"' AND date = '"+date+"';");
+			+"', prescription = '"+prescription+"' WHERE patient_name = '"+patient_name+"' AND date = '"+date+"';");
 		}
 		catch(SQLException sqlException)
 		{
@@ -126,11 +152,11 @@ public class TreatmentHandler
 		}
 	}
 
-	public void deleteTreatmentRecord(String SSN, String date)
+	public void deleteTreatmentRecord(String patient_name, String date)
 	{
 		try
 		{
-			statement.execute("DELETE FROM "+tableName+" WHERE SSN = '"+SSN
+			statement.execute("DELETE FROM "+tableName+" WHERE patient_name = '"+patient_name
 					+"' AND date = '"+date+"';");
 		}
 		catch(SQLException sqlException)

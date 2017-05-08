@@ -66,6 +66,6 @@ public class ScheduleServlet extends HttpServlet
 		}
 
 		scheduleTable.close();
-		response.sendRedirect("web/HCS.jsp"); // redirecting to client file
+		response.sendRedirect("web/HCS.jsp");
 	}
 }

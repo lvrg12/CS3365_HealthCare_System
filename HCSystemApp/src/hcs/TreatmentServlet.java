@@ -17,9 +17,9 @@ public class TreatmentServlet extends HttpServlet
 		treatmentTable = new TreatmentHandler();
 		
 		//retriving data from jsp file
-		String SSN, date, weight, height, blood_pressure, reason_for_visit, treatment, prescription;
-		SSN = request.getParameter("SSN");
-		date = request.getParameter("date");
+		String patient_name, date, weight, height, blood_pressure, reason_for_visit, treatment, prescription;
+		patient_name = request.getParameter("patient_name_treatRecInput");
+		date = request.getParameter("date_treatRecInput");
 		weight = request.getParameter("weight");
 		height = request.getParameter("height");
 		blood_pressure = request.getParameter("blood_pressure");
@@ -27,22 +27,23 @@ public class TreatmentServlet extends HttpServlet
 		treatment = request.getParameter("treatment");
 		prescription = request.getParameter("prescription");
 		
-		treatmentTable.addTreatmentRecord(SSN, date, weight, height, blood_pressure, reason_for_visit, treatment, prescription);
+		String permission = treatmentTable.getPermission();
 		
-		/*
-		if(SSN=="thing")//permissions for staff
+		if(patient_name!=null)
 		{
-			treatmentTable.addTreatmentRecord(SSN, date);
+			if(permission.equals("staff"))//permissions for staff
+			{
+				treatmentTable.addTreatmentRecord(patient_name, date);
+			}
+			else if(permission.equals("nurse"))//permissions for nurse
+			{
+				treatmentTable.updateTreatmentRecord(patient_name, date, weight, height, blood_pressure, reason_for_visit);
+			}
+			else if(permission.equals("dr"))//permissions for doctor
+			{
+				treatmentTable.updateTreatmentRecord(patient_name, date, treatment, prescription);
+			}
 		}
-		else if(true)//permissions for nurse
-		{
-			treatmentTable.updateTreatmentRecord(SSN, date, weight, height, blood_pressure, reason_for_visit);
-		}
-		else if(false)//permissions for doctor
-		{
-			treatmentTable.updateTreatmentRecord(SSN, date, treatment, prescription);
-		}
-		*/
 		
 		treatmentTable.close();
 		response.sendRedirect("web/HCS.jsp"); // redirecting to client file

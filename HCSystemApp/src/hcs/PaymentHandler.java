@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Random;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 public class PaymentHandler
 {
@@ -71,11 +73,12 @@ public class PaymentHandler
 	//note: throws an error if given SSN and date already exist
 	public void makeCopayPayment(String patient_name, String date, String card, String receipt_given)
 	{
+		int payment_ref = generatePaymentRef();
 		try
 		{
 			String sql;
 			sql = "UPDATE "+tableName+" SET is_paid = 'Paid',"
-					+ " payment_ref = '"+generatePaymentRef()+"',"
+					+ " payment_ref = '"+payment_ref+"',"
 					+ " receipt_given = '"+receipt_given+"' ,"
 					+ "card = '"+card+"' "
 					+ "WHERE patient_name = '"+patient_name+"' "
@@ -83,6 +86,21 @@ public class PaymentHandler
 					+ "AND payment_type = 'Copay'";
 			
 			statement.execute(sql);
+			if(receipt_given.equals("on"))
+			{
+				resultSet = statement.executeQuery("SELECT amount FROM payment_table "
+						+ "WHERE patient_name = '"+patient_name+"' AND "
+						+ "payment_type = 'Copay' AND date = '"+date+"'");
+				resultSet.next();
+				String amount = resultSet.getString(1);
+				
+				resultSet = null;
+				resultSet = statement.executeQuery("SELECT email FROM patient_account_table "
+						+ "WHERE patient_name = '"+patient_name+"'");
+				resultSet.next();
+				String email = resultSet.getString(1);
+				sendReceipt(patient_name,date,"Copay",card,payment_ref,amount,email);
+			}
 		}
 		catch(SQLException sqlException)
 		{
@@ -93,11 +111,12 @@ public class PaymentHandler
 	//updates payment record to paid
 	public void makeInvoicePayment(String patient_name, String date, String card, String receipt_given)
 	{
+		int payment_ref = generatePaymentRef();
 		try
 		{
 			String sql;
 			sql = "UPDATE "+tableName+" SET is_paid = 'Paid',"
-					+ " payment_ref = '"+generatePaymentRef()+"',"
+					+ " payment_ref = '"+payment_ref+"',"
 					+ " receipt_given = '"+receipt_given+"' ,"
 					+ "card = '"+card+"' "
 					+ "WHERE patient_name = '"+patient_name+"' "
@@ -105,6 +124,21 @@ public class PaymentHandler
 					+ "AND payment_type = 'Invoice'";
 			
 			statement.execute(sql);
+			if(receipt_given.equals("on"))
+			{
+				resultSet = statement.executeQuery("SELECT amount FROM payment_table "
+						+ "WHERE patient_name = '"+patient_name+"' AND "
+						+ "payment_type = 'Invoice' AND date = '"+date+"'");
+				resultSet.next();
+				String amount = resultSet.getString(1);
+				
+				resultSet = null;
+				resultSet = statement.executeQuery("SELECT email FROM patient_account_table "
+						+ "WHERE patient_name = '"+patient_name+"'");
+				resultSet.next();
+				String email = resultSet.getString(1);
+				sendReceipt(patient_name,date,"Invoice",card,payment_ref,amount,email);
+			}
 			
 		}
 		catch(SQLException sqlException)
@@ -153,10 +187,57 @@ public class PaymentHandler
 		}
 	}
 	
-	public static int generatePaymentRef()
+	public int generatePaymentRef()
 	{
 		int rand = (new Random()).nextInt(900000000) + 100000;
 		return rand;
+	}
+	
+	public void sendReceipt(String patient_name,String date,String payment_type,
+			String card, int payment_ref, String amount, String email)
+	{	
+		//generating receipt
+		String receipt = "PAYMENT RECEIPT\n"
+						+ payment_type + " Payment\n"
+						+ "Paid By: " + patient_name+"\n"
+						+ "Date: " + date + "\n"
+						+ "Amount: " + amount + "\n"
+						+ "Card Number: " + card + "\n"
+						+ "Payment Reference: " + payment_ref + "\n";
+		
+		//Sending email
+		/*
+		final String username = "gmail";
+		final String password = "password";
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
+		try {
+			
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("hcs_payments@hcs.com"));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse("lino.virgen@ttu.edu"));
+			message.setSubject("HealthCareSystem RECEIPT");
+			message.setText(receipt);
+			System.out.println(12);
+			Transport.send(message);
+			System.out.println(13);
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+		*/
 	}
 	
 	//closes all sql variables handling potential errors/exceptions

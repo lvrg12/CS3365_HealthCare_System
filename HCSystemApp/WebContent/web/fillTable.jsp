@@ -133,12 +133,12 @@ function fillTreatmentTable(headName, tableName)
 			statement = connection.createStatement();
 			String sql = "SELECT * FROM treatment_table";
 			resultSet = statement.executeQuery(sql);
-			String SSN,date,weight,height,blood_pressure;
+			String patient_name,date,weight,height,blood_pressure;
 			String reason_for_visit,treatment,prescription;
 			
 			while(resultSet.next())
 			{
-				SSN = resultSet.getString(1);
+				patient_name = resultSet.getString(1);
 				date = resultSet.getString(2);
 				weight = resultSet.getString(3);
 				height = resultSet.getString(4);
@@ -149,7 +149,7 @@ function fillTreatmentTable(headName, tableName)
 	%>
 				row = addAfter(headName);
 				cell = row.insertCell(i++);
-				cell.innerHTML = "<%=SSN%>";
+				cell.innerHTML = "<%=patient_name%>";
 				
 				cell = row.insertCell(i++);
 				cell.innerHTML = "<%=date%>";
@@ -249,7 +249,7 @@ function fillPatientPaymentTable(headName, tableName)
 		{
 			connection = DriverManager.getConnection(DATABASE_URL, username, password);
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM payment_table WHERE payment_type = 'Invoice'";
+			String sql = "SELECT * FROM payment_table WHERE payment_type = 'Invoice' AND patient_name = (SELECT name FROM permission_table)";
 			resultSet = statement.executeQuery(sql);
 			String patient_name,date,payment_type,is_paid;
 			String amount, payment_ref, card, receipt_given;

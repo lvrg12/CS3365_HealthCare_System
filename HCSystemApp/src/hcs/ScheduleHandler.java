@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ScheduleHandler
@@ -103,6 +104,35 @@ public class ScheduleHandler
 			sqlException.printStackTrace();
 		}
 	}
+	
+	//charges for no show appointments
+	public void chargeNoShow(String date)
+	{
+		try
+		{
+			resultSet = statement.executeQuery("SELECT * FROM schedule_table WHERE date = '"+date+"'");
+			ArrayList<String> patient_names = new ArrayList<String>();
+			while(resultSet.next())
+			{
+				patient_names.add(resultSet.getString(4));
+			}
+			
+			resultSet = null;
+			
+			for(String name : patient_names)
+			{
+				String values = "('"+name+"','"+date+"','Invoice','Unpaid',25,null,null,null)";
+				statement.execute("INSERT INTO payment_table VALUES "+values);
+			}
+			
+			statement.execute("DELETE FROM schedule_table WHERE date = '"+date+"';");
+		}
+		catch(SQLException sqlException)
+		{
+			sqlException.printStackTrace();
+		}
+	}
+	
 	
 	//prints table for testing purposes
 	public void printAll()

@@ -57,9 +57,9 @@ public class PatientAccountHandler //handler
 	
 	//adds a new account with given values to database
 	//note: throws an error if given SSN already exists
-	public void addAccount(String patientName, String address, String phoneNumber, String email, String SSN)
+	public void addAccount(String patientName, String address, String phoneNumber, String email, String SSN, String insurance)
 	{
-		String values = "('"+patientName+"','"+address+"','"+phoneNumber+"','"+email+"','"+SSN+"')";
+		String values = "('"+patientName+"','"+address+"','"+phoneNumber+"','"+email+"','"+SSN+"','"+insurance+"')";
 		try
 		{
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
@@ -70,51 +70,20 @@ public class PatientAccountHandler //handler
 		}
 	}
 	
-	//sets the name of patient with the given SSN
-	public void setName(String patientName, String SSN)
+	//adds a new account with given values to database
+	//note: throws an error if given SSN already exists
+	public void updateAccount(String patientName, String address, String phoneNumber, String email, String SSN, String insurance)
 	{
-		try
-		{
-			statement.execute("UPDATE "+tableName+" SET patient_name = '"+patientName+"' WHERE SSN = '"+SSN+"';");
-		}
-		catch(SQLException sqlException)
-		{
-			sqlException.printStackTrace();
-		}
+		deleteAccount(SSN);
+		addAccount(patientName,address,phoneNumber,email,SSN,insurance);
 	}
 	
-	//sets the address of patient with the given SSN
-	public void setAddress(String address, String SSN)
+	//deletes appointment
+	public void deleteAccount(String SSN)
 	{
 		try
 		{
-			statement.execute("UPDATE "+tableName+" SET address = '"+address+"' WHERE SSN = '"+SSN+"';");
-		}
-		catch(SQLException sqlException)
-		{
-			sqlException.printStackTrace();
-		}
-	}
-	
-	//sets the phoneNumber of patient with the given SSN
-	public void setPhoneNumber(String phoneNumber, String SSN)
-	{
-		try
-		{
-			statement.execute("UPDATE "+tableName+" SET phone_number = '"+phoneNumber+"' WHERE SSN = '"+SSN+"';");
-		}
-		catch(SQLException sqlException)
-		{
-			sqlException.printStackTrace();
-		}
-	}
-	
-	//sets the email of patient with the given SSN
-	public void setEmail(String email, String SSN)
-	{
-		try
-		{
-			statement.execute("UPDATE "+tableName+" SET email = '"+email+"' WHERE SSN = '"+SSN+"';");
+			statement.execute("DELETE FROM "+tableName+" WHERE SSN = '"+SSN+"';");
 		}
 		catch(SQLException sqlException)
 		{

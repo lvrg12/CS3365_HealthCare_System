@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class ScheduleHandler
 {
@@ -57,7 +59,7 @@ public class ScheduleHandler
 		catch(SQLException sqlException)
 		{
 			sqlException.printStackTrace();
-			return true;
+			return false;
 		}
 	}
 	
@@ -66,6 +68,9 @@ public class ScheduleHandler
 	public void createAppointment(String doctor, String date, String halfHour, String patientName)
 	{
 		String values = "('"+doctor+"','"+date+"','"+halfHour+"','"+patientName+"')";
+		double invoice_amt = generateInvoiceAmount(), copay_amt = generateCopayAmount();
+		double total = invoice_amt+copay_amt;
+
 		try
 		{
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
@@ -81,22 +86,53 @@ public class ScheduleHandler
 	public void changeAppointment(String old_doctor, String old_date, String old_time, String patient_name, String new_doctor, String new_date, String new_time)
 	{
 		createAppointment(new_doctor,new_date,new_time,patient_name);
-		cancelAppointment(old_doctor,old_date,old_time);
+		cancelAppointment(old_doctor,old_date,old_time,patient_name);
 	}
 	
 	//deletes appointment
-	public void cancelAppointment(String doctor, String date,String halfHour)
+	public void cancelAppointment(String doctor, String date,String halfHour,String patient_name)
 	{
 		try
 		{
 			statement.execute("DELETE FROM "+tableName+" WHERE doctor = '"+doctor
 								+"' AND date = '"+date+"' AND half_hour = '"+halfHour+"';");
+			//statement.execute("UPDATE reports_table SET num_patients = num_patients-1 WHERE doctor = '"+doctor+"' AND date = '"+date+"'");
+			//statement.execute("DELETE FROM payment_table WHERE patient_name = '"+patient_name+"' AND date = '"+date+"';");
 		}
 		catch(SQLException sqlException)
 		{
 			sqlException.printStackTrace();
 		}
 	}
+	
+	//charges for no show appointments
+	public void chargeNoShow(String date)
+	{
+		try
+		{
+			resultSet = statement.executeQuery("SELECT * FROM schedule_table WHERE date = '"+date+"'");
+			ArrayList<String> patient_names = new ArrayList<String>();
+			while(resultSet.next())
+			{
+				patient_names.add(resultSet.getString(4));
+			}
+			
+			resultSet = null;
+			
+			for(String name : patient_names)
+			{
+				String values = "('"+name+"','"+date+"','Invoice','Unpaid',25,null,null,null)";
+				statement.execute("INSERT INTO payment_table VALUES "+values);
+			}
+			
+			statement.execute("DELETE FROM schedule_table WHERE date = '"+date+"';");
+		}
+		catch(SQLException sqlException)
+		{
+			sqlException.printStackTrace();
+		}
+	}
+	
 	
 	//prints table for testing purposes
 	public void printAll()
@@ -151,5 +187,17 @@ public class ScheduleHandler
 		{
 			exception.printStackTrace();
 		}
+	}
+	
+	public static int generateInvoiceAmount()
+	{
+		int rand = (new Random()).nextInt(9000) + 1000;
+		return rand;
+	}
+	
+	public static int generateCopayAmount()
+	{
+		int rand = (new Random()).nextInt(90) + 10;
+		return rand;
 	}
 }

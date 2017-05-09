@@ -57,7 +57,7 @@ public class ScheduleServlet extends HttpServlet
 			
 			if(scheduleTable.appointmentExists(cancel_doctor, cancel_date, cancel_time))
 			{
-				scheduleTable.cancelAppointment(cancel_doctor, cancel_date, cancel_time);
+				scheduleTable.cancelAppointment(cancel_doctor, cancel_date, cancel_time, patient_name);
 			}
 		}
 		else
@@ -66,6 +66,6 @@ public class ScheduleServlet extends HttpServlet
 		}
 
 		scheduleTable.close();
-		response.sendRedirect("web/HCS.jsp"); // redirecting to client file
+		response.sendRedirect("web/HCS.jsp");
 	}
 }

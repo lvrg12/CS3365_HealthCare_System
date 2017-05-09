@@ -85,6 +85,9 @@ function CEOPermissions() {
 	// Display all tabs
 	tablinks = document.getElementsByClassName("tablinks");
 	
+	tab = document.getElementById("end_day");
+	tab.style.display = "inline";
+	
 	for(i = 0; i < tablinks.length; i++) {
 		tablinks[i].style.display = "block";
 	}
@@ -157,6 +160,10 @@ function patientPermissions() {
 	tab.style.display = "none";
 	tab = document.getElementById("repButton");
 	tab.style.display = "none";
+	
+	//Hide end-of-day button
+	tab = document.getElementById("end_day");
+	tab.style.display = "none";
 }
 
 function doctorPermissions() {
@@ -164,6 +171,9 @@ function doctorPermissions() {
 	
 	// Display all tabs
 	tablinks = document.getElementsByClassName("tablinks");
+	
+	tab = document.getElementById("end_day");
+	tab.style.display = "inline";
 	
 	for(i = 0; i < tablinks.length; i++) {
 		tablinks[i].style.display = "block";
@@ -227,6 +237,9 @@ function nursePermissions() {
 	// Display all tabs
 	tablinks = document.getElementsByClassName("tablinks");
 	
+	tab = document.getElementById("end_day");
+	tab.style.display = "inline";
+	
 	for(i = 0; i < tablinks.length; i++) {
 		tablinks[i].style.display = "block";
 	}
@@ -280,6 +293,9 @@ function staffPermissions() {
 	
 	// Display all tabs
 	tablinks = document.getElementsByClassName("tablinks");
+	
+	tab = document.getElementById("end_day");
+	tab.style.display = "inline";
 	
 	for(i = 0; i < tablinks.length; i++) {
 		tablinks[i].style.display = "block";

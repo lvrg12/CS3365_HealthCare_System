@@ -440,7 +440,7 @@
 
 <footer>
 	<form action="http://localhost:8080/HCSystemApp/EndOfDayServlet">
-		<input value="End of Day" type="submit" name="end_day" style="float: right">
+		<input value="End of Day" type="submit" id="end_day" name="end_day" style="float: right">
 	</form>
 </footer>
 

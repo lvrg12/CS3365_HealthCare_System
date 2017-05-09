@@ -93,15 +93,14 @@ public class TreatmentHandler
 	//note: throws an error if given SSN and date already exist
 	public void addTreatmentRecord(String patient_name, String date)
 	{
-		String values = "('"+patient_name+"','"+date+"',null,null,null,null,null,null)";
 		try
 		{
-			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
 			//looking for requested doctor
 			resultSet = statement.executeQuery("SELECT doctor FROM schedule_table WHERE patient_name = '"+patient_name+"' AND date = '"+date+"';");
 			resultSet.next();
 			String doctor = resultSet.getString(1);
-
+			String values = "('"+patient_name+"','"+date+"',null,null,null,null,null,null,'"+doctor+"')";
+			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
 			
 			//adding record for reports_table
 			if(doctorRecordExists(doctor,date))

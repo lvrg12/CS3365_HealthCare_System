@@ -58,7 +58,7 @@ public class PaymentHandler
 			statement.execute("INSERT INTO "+tableName+" VALUES "+values);
 			
 			//updating reports
-			resultSet = statement.executeQuery("SELECT doctor FROM schedule_table WHERE patient_name = '"+patient_name+"' AND date = '"+date+"'");
+			resultSet = statement.executeQuery("SELECT doctor FROM treatment_table WHERE patient_name = '"+patient_name+"' AND date = '"+date+"'");
 			resultSet.next();
 			String doctor = resultSet.getString(1);
 			statement.execute("UPDATE reports_table SET income = income+"+amount+" WHERE doctor = '"+doctor+"' AND date = '"+date+"'");
@@ -84,7 +84,6 @@ public class PaymentHandler
 					+ "WHERE patient_name = '"+patient_name+"' "
 					+ "AND date = '"+date+"' "
 					+ "AND payment_type = 'Copay'";
-			
 			statement.execute(sql);
 			if(receipt_given.equals("on"))
 			{
@@ -93,7 +92,6 @@ public class PaymentHandler
 						+ "payment_type = 'Copay' AND date = '"+date+"'");
 				resultSet.next();
 				String amount = resultSet.getString(1);
-				
 				resultSet = null;
 				resultSet = statement.executeQuery("SELECT email FROM patient_account_table "
 						+ "WHERE patient_name = '"+patient_name+"'");
@@ -206,9 +204,8 @@ public class PaymentHandler
 						+ "Payment Reference: " + payment_ref + "\n";
 		
 		//Sending email
-		/*
-		final String username = "gmail";
-		final String password = "password";
+		final String username = "ceohcs3365@gmail.com";
+		final String password = "helloworld";
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -222,22 +219,21 @@ public class PaymentHandler
 				return new PasswordAuthentication(username, password);
 			}
 		  });
-		try {
+		try
+		{
 			
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("hcs_payments@hcs.com"));
+			message.setFrom(new InternetAddress("ceo.hcs.cs3365@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("lino.virgen@ttu.edu"));
+				InternetAddress.parse(email));
 			message.setSubject("HealthCareSystem RECEIPT");
 			message.setText(receipt);
-			System.out.println(12);
 			Transport.send(message);
-			System.out.println(13);
-
-		} catch (MessagingException e) {
+		}
+		catch (MessagingException e)
+		{
 			throw new RuntimeException(e);
 		}
-		*/
 	}
 	
 	//closes all sql variables handling potential errors/exceptions
